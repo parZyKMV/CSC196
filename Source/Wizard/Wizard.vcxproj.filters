@@ -14,5 +14,13 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Rendeder.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Rendeder.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
