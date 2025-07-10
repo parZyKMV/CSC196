@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "../Wizard/Renderer/Renderer.h"
 #include <iostream>
 
 using namespace std;
@@ -15,8 +15,8 @@ void Renderer::ShutDown()
 {
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
-    SDL_Quit()
-};
+    SDL_Quit();
+}
 
 bool Renderer::CreateWindow(const std::string& name, int width, int height)
 {

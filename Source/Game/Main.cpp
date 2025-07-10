@@ -1,84 +1,102 @@
-#include 
-
+#include "../Wizard/Math/Math.h"
+#include "../Wizard/Math/Vector2.h"
+#include "../Wizard/Core/Random.h"
+#include "../Wizard/Renderer/Renderer.h"
 
 
 
 #include <SDL3/SDL.h>
 #include <iostream>
+#include <vector>
 #include <cstdlib>   
 
 int main(int argc, char* argv[]) {
-    SDL_Init(SDL_INIT_VIDEO);
+    Renderer renderer;
+    
+    renderer.Inatialize();
+    renderer.CreateWindow("Viper Engine", 1280, 1024);
 
-    SDL_Window* window = SDL_CreateWindow("SDL3 Project", 1280, 1024, 0);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
-    if (renderer == nullptr) {
-        std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Event event;
+    SDL_Event e;
     bool quit = false;
+
+    //create start
+    std::vector<viper::vec2> starts;
+    for (int i = 0;i < 100;i++)
+    {
+        starts.push_back(viper::vec2{rand() % 1280, rand() % 1024});
+    }
+    //vec2 v(30, 40);
 
     // Green rectangle
 
 
     while (!quit) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_EVENT_QUIT) {
                 quit = true;
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
-        SDL_RenderClear(renderer);
+        renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
+        renderer.Clear();
 
-        // Draw 10 random red lines
-        for (int i = 0; i < 10; ++i) {
-            float x1 = rand() % 1000;
-            float y1 = rand() % 1000;
-            float x2 = rand() % 1000;
-            float y2 = rand() % 1000;
+    
 
+        viper::vec2 speed(-0.1f, 0.0f);
+        float lenght = speed.Lenght();
 
-        //Random colors
-            Uint8 r = rand() % 256;
-            Uint8 g = rand() % 256;
-            Uint8 b = rand() % 256;
+        for (auto& star : starts) {
+            star += speed;
 
-            SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-            SDL_RenderLine(renderer, x1, y1, x2, y2);
-        }
+            if (star[0] > 1280)star[0] = 0;
+            if (star[0] < 0) star[0] = 1280;
 
-        //Draw 20 random points
-        for (int i = 0; i < 20; i++)
-        {
+            renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
             float x = rand() % 1000;
             float y = rand() % 1000;
-
-            //Random colors
-            Uint8 r = rand() % 256;
-            Uint8 g = rand() % 256;
-            Uint8 b = rand() % 256;
-
-            SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-            SDL_RenderPoint(renderer, x, y);
+            renderer.DrawPoint(star.x, star.y);
         }
 
-        SDL_RenderPresent(renderer);
+        for (int i = 0; i < starts.size(); i++)
+        {
+
+        }
+
+        //// Draw 10 random red lines
+        //for (int i = 0; i < 10; ++i) {
+        //    float x1 = rand() % 1000;
+        //    float y1 = rand() % 1000;
+        //    float x2 = rand() % 1000;
+        //    float y2 = rand() % 1000;
+
+
+        ////Random colors
+        //    Uint8 r = rand() % 256;
+        //    Uint8 g = rand() % 256;
+        //    Uint8 b = rand() % 256;
+
+        //    renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
+        //    renderer.DrawLine(x1, y1, x2, y2);
+        //}
+
+        ////Draw 20 random points
+        //for (int i = 0; i < 20; i++)
+        //{
+    
+
+        //    //Random colors
+        //    Uint8 r = rand() % 256;
+        //    Uint8 g = rand() % 256;
+        //    Uint8 b = rand() % 256;
+
+        //    renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
+        //    
+        //}
+
+        renderer.Present();
     }
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    renderer.ShutDown();
 
     return 0;
 }
