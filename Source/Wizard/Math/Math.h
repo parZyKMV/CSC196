@@ -13,6 +13,14 @@ namespace viper {
 
 		constexpr float degtoRad(float deg) { return deg * (pi / 100); }
 
+		constexpr int wrap(int value, int min, int max) {
+			int range = max - min;
+			int result = (value - min) % range;
+			if (result < 0) result += range;
+
+			return min + result;
+		}
+
 		using std::min;
 		using std::max;
 		//using std::clamp;

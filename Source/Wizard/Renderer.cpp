@@ -18,16 +18,18 @@ void Renderer::ShutDown()
     SDL_Quit();
 }
 
+
+
 bool Renderer::CreateWindow(const std::string& name, int width, int height)
 {
-    SDL_Window* window = SDL_CreateWindow("SDL3 Project", 1280, 1024, 0);
+    m_window = SDL_CreateWindow("SDL3 Project", 1280, 1024, 0);
     if (m_window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return false;
     }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+    m_renderer = SDL_CreateRenderer(m_window, nullptr);
     if (m_renderer == nullptr) {
         std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(m_window);
