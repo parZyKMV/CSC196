@@ -9,7 +9,8 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <vector>
-#include <cstdlib>   
+#include <cstdlib>  
+#include <fmod.hpp>
 
 int main(int argc, char* argv[]) {
     viper::Time time;
@@ -33,6 +34,18 @@ int main(int argc, char* argv[]) {
 
     std::vector<viper::vec2> points;
 
+    // create audio system
+    FMOD::System* audio;
+    FMOD::System_Create(&audio);
+
+    void* extradriverdata = nullptr;
+    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
+
+    FMOD::Sound* sound = nullptr;
+    audio->createSound("test.wav", FMOD_DEFAULT, 0, &sound);
+
+    audio->playSound(sound, 0, false, nullptr);
+
     //MAIN LOOP
     while (!quit) {
         time.Tick();
@@ -50,6 +63,8 @@ int main(int argc, char* argv[]) {
         if (input.GetMouseButtonDown(viper::InputSystem::mouseButton::Left)) {
             std::cout << "mouse pressed \n";
         }
+        //audio
+        audio->update();
 
         viper::vec2 mouse = input.GetMousePosition();
         //cout << mouse.x << " " << mouse.y << endl;
