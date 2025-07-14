@@ -46,6 +46,18 @@ int main(int argc, char* argv[]) {
 
     audio->playSound(sound, 0, false, nullptr);
 
+    std::vector<FMOD::Sound*> sounds;
+    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    
+
     //MAIN LOOP
     while (!quit) {
         time.Tick();
@@ -65,6 +77,20 @@ int main(int argc, char* argv[]) {
         }
         //audio
         audio->update();
+
+        if (input.getKeyDown(SDL_SCANCODE_Q) && !input.getPrevKeyDown(SDL_SCANCODE_Q))
+        {
+            audio->playSound(sounds[0], nullptr,false, nullptr);
+        }
+
+        if (input.getKeyDown(SDL_SCANCODE_W) && !input.getPrevKeyDown(SDL_SCANCODE_W))
+        {
+            audio->playSound(sounds[1], nullptr,false, nullptr);
+        }
+        if (input.getKeyDown(SDL_SCANCODE_E) && !input.getPrevKeyDown(SDL_SCANCODE_E))
+        {
+            audio->playSound(sounds[2], nullptr,false, nullptr);
+        }
 
         viper::vec2 mouse = input.GetMousePosition();
         //cout << mouse.x << " " << mouse.y << endl;
