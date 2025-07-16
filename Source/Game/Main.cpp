@@ -4,7 +4,7 @@
 #include "../Wizard/Core/Time.h"
 #include "../Wizard/Renderer/Renderer.h"
 #include "../Wizard/Input/InputSystem.h"
-
+#include "../Wizard/AudioSystem.h"
 
 #include <SDL3/SDL.h>
 #include <iostream>
@@ -35,27 +35,12 @@ int main(int argc, char* argv[]) {
     std::vector<viper::vec2> points;
 
     // create audio system
-    FMOD::System* audio;
-    FMOD::System_Create(&audio);
+    viper::AudioSystem audio;
+    audio.Iniatialize();
 
-    void* extradriverdata = nullptr;
-    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
-
-    FMOD::Sound* sound = nullptr;
-    audio->createSound("test.wav", FMOD_DEFAULT, 0, &sound);
-
-    audio->playSound(sound, 0, false, nullptr);
-
-    std::vector<FMOD::Sound*> sounds;
-    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
+    audio.AddSound("bass.wav", "bass");
+    audio.AddSound("snare.wav", "snare");
+    audio.AddSound("open-hat.wav", "open-hat");
     
 
     //MAIN LOOP
@@ -76,20 +61,20 @@ int main(int argc, char* argv[]) {
             std::cout << "mouse pressed \n";
         }
         //audio
-        audio->update();
+        audio.Update();
 
         if (input.getKeyDown(SDL_SCANCODE_Q) && !input.getPrevKeyDown(SDL_SCANCODE_Q))
         {
-            audio->playSound(sounds[0], nullptr,false, nullptr);
+            audio.PlaySound("bass");
         }
 
         if (input.getKeyDown(SDL_SCANCODE_W) && !input.getPrevKeyDown(SDL_SCANCODE_W))
         {
-            audio->playSound(sounds[1], nullptr,false, nullptr);
+            audio.PlaySound("snare");
         }
         if (input.getKeyDown(SDL_SCANCODE_E) && !input.getPrevKeyDown(SDL_SCANCODE_E))
         {
-            audio->playSound(sounds[2], nullptr,false, nullptr);
+            audio.PlaySound("open-hat");
         }
 
         viper::vec2 mouse = input.GetMousePosition();
@@ -129,6 +114,7 @@ int main(int argc, char* argv[]) {
     }
 
     renderer.ShutDown();
+    audio.Shutdown();
 
     return 0;
 }
