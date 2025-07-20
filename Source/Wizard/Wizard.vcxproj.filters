@@ -85,5 +85,8 @@
     <ClInclude Include="Game\Actor.h">
       <Filter>Source\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Transform.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

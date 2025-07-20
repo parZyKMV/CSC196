@@ -45,6 +45,11 @@ void Renderer::SetColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
     //a -> trasparency
 }
 
+void Renderer::SetColor(float r, float g, float b, float a)
+{
+    SDL_SetRenderDrawColorFloat(m_renderer, r, b, g, a);
+}
+
 void Renderer::Clear()
 {
     SDL_RenderClear(m_renderer);

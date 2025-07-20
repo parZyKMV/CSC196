@@ -1,5 +1,7 @@
 #include "../Math/Vector2.h"
 #include "../Math/Vector3.h"
+#include "../Math/Transform.h"
+#include "../Renderer/Renderer.h"
 
 #include <vector>
 
@@ -9,9 +11,9 @@ namespace viper {
 		Model() = default;
 		Model(const std::vector<vec2> points, const vec3& color):
 			m_points{ points },
-			m_color{ color }
-		{ }
-		void Draw(class Renderer& renderer, const vec2& position, float ratation, float scale);
+			m_color{ color }{ }
+		void Draw(class Renderer& renderer, const vec2& position, float rotation, float scale);
+		void Draw(class Renderer& renderer, const Transform& treansform);
 
 	private:
 		std::vector<vec2> m_points;
