@@ -38,6 +38,16 @@ namespace viper {
 		//Square root (x * x + y * y)
 		float LenghtSqr() const { return (x * x) + (y * y); }
 		float Lenght() const { return viper::math::sqrtf(LenghtSqr()); }
+		Vector2 Normalized() const { return *this / Lenght(); }
+		float Angle() const { return math::atan2f(y, x); }
+
+		Vector2 Rotate(float radians) const {
+			Vector2 v;
+
+			v.x = x * math::cosf(radians) - y * math::sinf(radians);
+			v.y = x * math::sinf(radians) + y * math::cosf(radians);
+			return v;
+		}
 	};
 
 	using ivec2 = Vector2<int>;

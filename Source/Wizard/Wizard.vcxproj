@@ -162,7 +162,8 @@
   <ItemGroup>
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Game\Actor.cpp" />
+    <ClCompile Include="FrameWork\Actor.cpp" />
+    <ClCompile Include="FrameWork\Scene.cpp" />
     <ClCompile Include="input\InputSystem.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Renderer\Model.cpp" />
@@ -173,12 +174,14 @@
     <ClInclude Include="Core\Random.h" />
     <ClInclude Include="Core\StringHelper.h" />
     <ClInclude Include="Core\Time.h" />
-    <ClInclude Include="Game\Actor.h" />
+    <ClInclude Include="FrameWork\Actor.h" />
+    <ClInclude Include="FrameWork\Scene.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Renderer\Engine.h" />
     <ClInclude Include="Renderer\Model.h" />
     <ClInclude Include="Renderer\Renderer.h" />
   </ItemGroup>
