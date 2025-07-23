@@ -9,6 +9,8 @@
 #include "Renderer/Model.h"
 #include "Math/Transform.h"
 #include "../Wizard/Renderer/Engine.h"
+#include "Renderer/Font.h"
+#include "Renderer/Text.h"
 
 #include <SDL3/SDL.h>
 #include <iostream>
@@ -66,6 +68,14 @@ int main(int argc, char* argv[]) {
     getEngine().getAudio().AddSound("bass.wav", "bass");
     getEngine().getAudio().AddSound("snare.wav", "snare");
     getEngine().getAudio().AddSound("open-hat.wav", "open-hat");
+
+	// load the font
+    Font* font = new Font();
+    font->Load("CactusSandwich.ttf", 50);
+
+	// create a text object
+    Text* text = new Text(font);
+    text->Create(getEngine().getRenderer(), "Hello World", vec3{1.0f, 1.0f, 1.0f});
      
     //create starts
     std::vector<vec2> starts;
@@ -114,6 +124,8 @@ int main(int argc, char* argv[]) {
         vec3 color{ 0,0,0 };
         getEngine().getRenderer().SetColor(color.x, color.y, color.z);
         getEngine().getRenderer().Clear();
+
+        text->Draw(getEngine().getRenderer(), 40.0f, 40.0f);
 
         vec2 speedz{ -140.0f, 0.0f };
         float lenght = speedz.Lenght();

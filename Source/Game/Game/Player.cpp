@@ -14,6 +14,6 @@ void Player::Update(float dt)
 	if (getEngine().getInput().getKeyDown(SDL_SCANCODE_D)) rotate = +1;
 
 	vec2 direction{ 1,0 };
-	vec2 
-	m_transform.rotation += (rotate * rotationRate) * dt;
+	vec2;
+	//m_transform.rotation += (rotate * rotationRate) * dt;
 }
