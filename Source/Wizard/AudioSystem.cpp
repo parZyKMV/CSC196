@@ -35,7 +35,7 @@ namespace viper {
 	bool AudioSystem::AddSound(const std::string& filename, const std::string& name)
 	{
 		std::string key = (name.empty()) ? filename : name;
-		key = viper::tolower(key);
+		key = viper::toLower(key);
 
 		if (m_sounds.find(key) != m_sounds.end()) {
 			std::cerr << "Auido System Alredy exist: " << key << std::endl;

@@ -81,8 +81,8 @@ int main(int argc, char* argv[]) {
     std::vector<vec2> starts;
     for (int i = 0; i < 100; i++) {
         starts.push_back(viper::vec2{
-            viper::random::getRandomFloat() * 1280,
-            viper::random::getRandomFloat() * 1024
+            viper::random::getReal() * 1280,
+            viper::random::getReal() * 1024
             });
     }
 
@@ -99,6 +99,7 @@ int main(int argc, char* argv[]) {
 
         getEngine().getAudio().Update();
         getEngine().getInput().Update();
+
 
         /*if (getEngine().getInput().getKeyPressed(SDL_SCANCODE_Q)) getEngine().getAudio().PlaySound("bass");
         if (getEngine().getInput().getKeyPressed(SDL_SCANCODE_W)) getEngine().getAudio().PlaySound("snare");
@@ -134,7 +135,7 @@ int main(int argc, char* argv[]) {
             if (star[0] > 1280) star[0] = 0;
             if (star[0] < 0) star[0] = 1280;
 
-            getEngine().getRenderer().SetColor((uint8_t)random::getRandomInt(256), random::getRandomInt(256), random::getRandomInt(256));
+            getEngine().getRenderer().SetColor((uint8_t)random::getInt(256), random::getInt(256), random::getInt(256));
             getEngine().getRenderer().DrawPoint(star.x, star.y);
         }
                 

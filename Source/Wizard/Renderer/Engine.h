@@ -1,5 +1,6 @@
 #pragma once
 #include "../Core/Time.h"
+#include "Renderer/Renderer.h"
 #include <memory>
 
 namespace viper {

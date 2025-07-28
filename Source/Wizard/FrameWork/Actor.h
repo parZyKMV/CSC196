@@ -1,9 +1,18 @@
 #pragma once
 #include "../Math/Transform.h"
 #include <memory>
+#include <string>
 
 namespace viper {
 	class Actor {
+	public:
+		std::string name;
+		std::string tag;
+
+		vec2 velocity{ 0,0 };
+		float damping{ 0.2f }; // Damping factor for velocity
+
+		class Scene* scene{ nullptr }; // Pointer to the scene this actor belongs to
 	public:
 		Actor() = default;
 		Actor(const viper::Transform& transfrom, std::shared_ptr<class Model>model):

@@ -2,7 +2,7 @@
 #include <string>
 
 namespace viper {
-	inline std::string tolower(const std::string& str) {
+	inline std::string toLower(const std::string& str) {
 		std::string result = str;
 		for (char& c : result) {
 			c = std::tolower(c);
@@ -10,7 +10,7 @@ namespace viper {
 		return result;
 	}
 
-	inline std::string toupper(const std::string& str) {
+	inline std::string toUpper(const std::string& str) {
 		std::string result = str;
 		for (char& c : result) {
 			c = std::toupper(c);
