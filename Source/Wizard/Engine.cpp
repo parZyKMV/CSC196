@@ -28,6 +28,12 @@ namespace viper {
 		m_audio->Shutdown();
 	}
 
+	void Engine::Update() {
+		m_time.Tick();
+		m_input->Update();
+		m_audio->Update();
+	}
+
 	void Engine::Draw()
 	{
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "../Math/Transform.h"
+#include "Scene.h"
 #include <memory>
 #include <string>
 
@@ -11,7 +12,6 @@ namespace viper {
 
 		vec2 velocity{ 0,0 };
 		float damping{ 0.2f }; // Damping factor for velocity
-
 		class Scene* scene{ nullptr }; // Pointer to the scene this actor belongs to
 	public:
 		Actor() = default;

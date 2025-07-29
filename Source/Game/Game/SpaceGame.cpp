@@ -1,91 +1,100 @@
-//#include "SpaceGame.h"
-//#include "../Wizard/Renderer/Engine.h"
-//#include "../Wizard/Renderer/Renderer.h"
-//#include "../Wizard/Renderer/Model.h"
-//#include "../Wizard/FrameWork/Scene.h"
-//#include "../Wizard/Core/Random.h"
-//#include "../Wizard/Math/Vector2.h"
-//#include "Enemy.h"
-//#include "Player.h"
-//
-//#include <vector>
-//
-//using namespace viper;
-//
-//bool SpaceGame::Initialize() {
-//	scene = std::make_unique<Scene>();
-//
-//    std::vector<vec2> airplanePoints = {
-//        {0, 0},
-//        {60, 20},
-//        {50, 15},
-//        {40, 10},
-//        {40, 5},
-//        {20, 5},
-//        {20, -5},
-//        {40, -5},
-//        {40, -10},
-//        {50, -15},
-//        {60, -20},
-//        {0, 0}
-//    };
-//
-//    std::shared_ptr<Model> airplane_model = std::make_shared<Model>(airplanePoints, viper::vec3{ 96, 255, 41 });
-//
-//    Transform transform{vec2{getEngine().getRenderer().GetWidth() * 0.5f , viper::getEngine().getRenderer().GetHeight() * 0.5f}, 0, 2 };
-//    std::unique_ptr<Player> player = std::make_unique<Player>(transform, airplane_model);
-//
-//    player->speed = 500.0f;
-//    player->rotationRate = 180.0f;
-//    player->damping = 0.5f;
-//    player->name = "player";
-//
-//    scene->AddActor(std::move(player));
-//
-//    std::shared_ptr<viper::Model> enemy_model = std::make_shared<viper::Model>(airplanePoints, viper::vec3{255, 46, 46});
-//
-//
-//    //create enemies
-//    for (int i = 0; i < 10; i++) {
-//        viper::Transform enemy_transform{ viper::vec2{ random::getReal() * getEngine().getRenderer().GetWidth(), random::getReal() * getEngine().getRenderer().GetHeight() }, 0, 2 };
-//        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(enemy_transform, enemy_model);
-//        enemy->speed = random::getReal() * 500;
-//        enemy->damping = 1.5f;
-//        scene->AddActor(std::move(enemy));
-//    }
-//
-//    // SAVING CODE FOR ENEMY CODE
-//    /*for (int i = 0; i < 10; i++) {
-//        viper::Transform transform{ viper::vec2{viper::random::getReal() * 1280, viper::random::getReal() * 1024}, 0, 2 };
-//        std::unique_ptr<Player> player = std::make_unique<Player>(transform, model);
-//        scene->AddActor(std::move(player));
-//    }*/
-//
-//    // FONT CREATION
-//    /*std::unique_ptr<viper::Font> font = std::make_unique<viper::Font>();
-//    font->Load("ArcadeClassic.ttf", 20);*/
-//
-//    // TEXT CREATION
-//    /*_text = std::make_unique<viper::Text>(font);
-//    _text->Create(viper::GetEngine().GetRenderer(), "Hello World", viper::vec3{ 1, 1, 1 });*/
-//
-//    return true;
-//}
-//
-//void SpaceGame::Update() {
-//    scene->Update(viper::getEngine().getTime().GetDeltaTime());
-//}
-//
-//void SpaceGame::Draw() {
-//    scene->Draw(viper::getEngine().getRenderer());
-//
-//    //// DRAW TEXT
-//    //_text->Draw(viper::GetEngine().GetRenderer(), 40.0f, 40.0f);
-//}
-//
-//void SpaceGame::Shutdown() {
-//
-//}
+#include "SpaceGame.h"
+#include "Framework/Scene.h"
+#include "Core/Random.h"
+#include "Math/Vector2.h"
+#include "Renderer/Model.h"
+#include "Renderer/Renderer.h"
+#include "Input/InputSystem.h"
+#include "Renderer/Engine.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "GameData.h"
 
+#include <vector>
 
+using namespace viper;
 
+bool SpaceGame::Initialize()
+{
+    m_scene = std::make_unique<Scene>();
+
+    return true;
+}
+
+void SpaceGame::Update(float dt)
+{
+    switch (m_gameState)
+    {
+    case SpaceGame::GameState::Initialize:
+        m_gameState = GameState::Title;
+        break;
+
+    case SpaceGame::GameState::Title:
+        if (viper::getEngine().getInput().getKeyPressed(SDL_SCANCODE_SPACE)) {
+            m_gameState = GameState::StartGame;
+        }
+        break;
+
+    case SpaceGame::GameState::StartGame:
+        m_score = 0;
+        m_lives = 3;
+        m_gameState = GameState::StartRound;
+        break;
+
+    case SpaceGame::GameState::StartRound:
+    {
+        // create player
+        std::shared_ptr<viper::Model> model = std::make_shared<viper::Model>(GameData::playerPoints, viper::vec3{ 0.0f, 0.4f, 1.0f });
+        viper::Transform transform{ viper::vec2{ viper::getEngine().getRenderer().GetWidth() * 0.5f, viper::getEngine().getRenderer().GetHeight() * 0.5f }, 0, 5 };
+        std::unique_ptr<Player> player = std::make_unique<Player>(transform, model);
+        player->speed = 1500.0f;
+        player->rotationRate = 180.0f;
+        player->damping = 1.5f;
+        player->name = "player";
+        player->tag = "player";
+
+        m_scene->AddActor(std::move(player));
+        m_gameState = GameState::Game;
+    }
+    break;
+    case SpaceGame::GameState::Game:
+        enemySpawnTimer -= dt;
+        if (enemySpawnTimer <= 0) {
+            enemySpawnTimer = 4;
+
+            // create enemies
+            std::shared_ptr<viper::Model> enemyModel = std::make_shared<viper::Model>(GameData::enemyPoints, viper::vec3{ viper::random::getReal(), viper::random::getReal(), viper::random::getReal() });
+            viper::Transform transform{ viper::vec2{ viper::random::getReal() * viper::getEngine().getRenderer().GetWidth(), viper::random::getReal() * viper::getEngine().getRenderer().GetHeight() }, 0, 10 };
+            std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
+            enemy->damping = 0.2f;
+            enemy->speed = (viper::random::getReal() * 800) + 500;
+            enemy->tag = "enemy";
+            m_scene->AddActor(std::move(enemy));
+        }
+
+        break;
+    case SpaceGame::GameState::PlayerDead:
+        m_lives--;
+        if (m_lives == 0) m_gameState = GameState::GameOver;
+        else {
+            m_gameState = GameState::StartRound;
+        }
+        break;
+    case SpaceGame::GameState::GameOver:
+        break;
+    default:
+        break;
+    }
+
+    m_scene->Update(viper::getEngine().getTime().GetDeltaTime());
+}
+
+void SpaceGame::Draw()
+{
+    m_scene->Draw(viper::getEngine().getRenderer());
+}
+
+void SpaceGame::Shutdown()
+{
+    //
+}

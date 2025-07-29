@@ -8,61 +8,33 @@
 #include "AudioSystem.h"
 #include "Renderer/Model.h"
 #include "Math/Transform.h"
-#include "../Wizard/Renderer/Engine.h"
+#include "Renderer/Engine.h"
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
 #include "Core/File.h"
+#include "Game/SpaceGame.h"
 
 
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <vector>
-#include <cstdlib>  
+#include <cstdlib>   
 #include <fmod.hpp>
 #include <memory>
 
 using namespace viper;
 
 int main(int argc, char* argv[]) {
-    //viper::Time time;
-    //viper::Renderer renderer;
 
-    //renderer.Inatialize();
-    //renderer.CreateWindow("Viper Engine", 1280, 1024);
+	// Initialize Engine
+    getEngine().Initialize();
 
-    //viper::InputSystem input;
-    //input.Inatialize();
-
-    ////create audio system
-    //viper::AudioSystem audio;
-    //audio.Iniatialize();
+	//Iniatialize Game
+	std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
+	game->Initialize();
 
     SDL_Event e;
     bool quit = false;
-
-    //start all requiremts with Engine.h
-
-    getEngine().Initialize();
-    
-    
-    std::vector<vec2> airplanePoints = {
-        {0, 0},       
-        {60, 20},     
-        {50, 15},     
-        {40, 10},     
-        {40, 5},      
-        {20, 5},      
-        {20, -5},    
-        {40, -5},     
-        {40, -10},    
-        {50, -15},    
-        {60, -20},    
-        {0, 0}        
-    };
-
-    vec3 airplaneColor = { 0.0f, 0.7f, 1.0f }; 
-    Model airplaneModel(airplanePoints, airplaneColor);
-    Transform transform{ vec2 {640,512},0,1 };
 
     std::vector<vec2> points; 
 
@@ -72,12 +44,12 @@ int main(int argc, char* argv[]) {
     getEngine().getAudio().AddSound("open-hat.wav", "open-hat");
 
 	// load the font
-    Font* font = new Font();
-    font->Load("CactusSandwich.ttf", 50);
+   /* Font* font = new Font();
+    font->Load("CactusSandwich.ttf", 50);*/
 
 	// create a text object
-    Text* text = new Text(font);
-    text->Create(getEngine().getRenderer(), "Hello World", vec3{1.0f, 1.0f, 1.0f});
+   /* Text* text = new Text(font);
+    text->Create(getEngine().getRenderer(), "Hello World", vec3{1.0f, 1.0f, 1.0f})*/;
      
     //create starts
     std::vector<vec2> starts;
@@ -88,6 +60,7 @@ int main(int argc, char* argv[]) {
             });
     }
 
+
     while (!quit) {
         getEngine().getTime().Tick();
 
@@ -96,11 +69,13 @@ int main(int argc, char* argv[]) {
                 quit = true;
             }
         }
+        getEngine().getAudio().Update();
+        getEngine().Update();
+        game->Update(getEngine().getTime().GetDeltaTime());
 
         if (getEngine().getInput().getKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
 
-        getEngine().getAudio().Update();
-        getEngine().getInput().Update();
+        
 
   
 
@@ -110,7 +85,7 @@ int main(int argc, char* argv[]) {
 
         /*if (getEngine().getInput().getKeyDown(SDL_SCANCODE_A)) transform.rotation -= math::degtoRad(90) * getEngine().getTime().GetDeltaTime();
         if (getEngine().getInput().getKeyDown(SDL_SCANCODE_D)) transform.rotation += math::degtoRad(90) * getEngine().getTime().GetDeltaTime();*/
-        float speed = 200;
+       /* float speed = 200;
         viper::vec2 direction{ 0,0 };
         if (getEngine().getInput().getKeyDown(SDL_SCANCODE_W)) direction.y = -1;
         if (getEngine().getInput().getKeyDown(SDL_SCANCODE_S)) direction.y = 1;
@@ -121,7 +96,7 @@ int main(int argc, char* argv[]) {
         {
             direction = direction.Normalized();
             transform.position += (direction * speed) * getEngine().getTime().GetDeltaTime();
-        }
+        }*/
 
         //draw
 
@@ -129,7 +104,9 @@ int main(int argc, char* argv[]) {
         getEngine().getRenderer().SetColor(color.x, color.y, color.z);
         getEngine().getRenderer().Clear();
 
-        text->Draw(getEngine().getRenderer(), 40.0f, 40.0f);
+        /*text->Draw(getEngine().getRenderer(), 40.0f, 40.0f);*/
+
+        game->Draw();
 
         vec2 speedz{ -140.0f, 0.0f };
         float lenght = speedz.Lenght();
@@ -142,19 +119,20 @@ int main(int argc, char* argv[]) {
             getEngine().getRenderer().DrawPoint(star.x, star.y);
         }
                 
-         //airplaneModel.Draw(renderer,input.GetMousePosition(),time.GetTime(),10.0f);
-        airplaneModel.Draw(getEngine().getRenderer(), transform);
+        // //airplaneModel.Draw(renderer,input.GetMousePosition(),time.GetTime(),10.0f);
+        //airplaneModel.Draw(getEngine().getRenderer(), transform);
        
-        if (getEngine().getInput().GetMouseButtonDown(viper::InputSystem::mouseButton::Left)) {
-            viper::vec2 pos = getEngine().getInput().GetMousePosition();
-            if (points.empty() || (pos - points.back()).Lenght() > 10) {
-                points.push_back(pos);
-            }
-        }
+        //if (getEngine().getInput().GetMouseButtonDown(viper::InputSystem::mouseButton::Left)) {
+        //    viper::vec2 pos = getEngine().getInput().GetMousePosition();
+        //    if (points.empty() || (pos - points.back()).Lenght() > 10) {
+        //        points.push_back(pos);
+        //    }
+        //}
 
         getEngine().getRenderer().Present();
     }
 
+    game->Shutdown();
     getEngine().Shutdown();
 
     return 0;

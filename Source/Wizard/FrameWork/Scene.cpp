@@ -1,9 +1,9 @@
 #include "Scene.h"
 #include "Actor.h"
-#include "../Core/StringHelper.h"
-#include "iostream"
+#include <iostream>
 
 namespace viper {
+
 	void Scene::Update(float dt) {
 		for (auto& actor : m_actors) {
 			actor->Update(dt);
@@ -16,17 +16,9 @@ namespace viper {
 		}
 	}
 
-	void Scene::AddActor(std::unique_ptr<class Actor> actor) {
-		actor->scene = this; // Set the scene pointer for the actor
+	void Scene::AddActor(std::unique_ptr<Actor> actor) {
+		actor->scene = this;
 		m_actors.push_back(std::move(actor));
 	}
 
-	Actor* Scene::GetActorByName(const std::string& name) {
-		for (auto& actor : m_actors) {
-			if (toLower(actor->name) == name) {
-				return actor.get();
-			}
-		}
-		return nullptr;
-	}
-}
+} 

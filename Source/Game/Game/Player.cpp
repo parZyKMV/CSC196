@@ -21,7 +21,7 @@ void Player::Update(float dt)
 	if (getEngine().getInput().getKeyDown(SDL_SCANCODE_S)) thrust = +1;
 
 	vec2 direction{ 1,0 };
-	vec2 force = direction.Rotate(math::degtoRad(m_transform.rotation)) * thrust * speed;
+	vec2 force = direction.Rotate(math::degToRad(m_transform.rotation)) * thrust * speed;
 	velocity += force * dt;
 
 	m_transform.position.x = math::wrap(m_transform.position.x, 0.0f, (float)getEngine().getRenderer().GetWidth());

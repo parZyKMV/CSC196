@@ -8,7 +8,7 @@ using namespace viper;
 void Enemy::Update(float dt) {
 	speed = 100.0f; // Speed of the enemy
 
-	Actor* player = scene->GetActorByName("player");
+	Actor* player = scene->getActorByName("player");
 	if (player) {
 		viper::vec2 direction{ 0, 0 };
 		direction = player->GetTransform().position - m_transform.position;
@@ -17,7 +17,7 @@ void Enemy::Update(float dt) {
 	}
 
 	vec2 direction{ 1, 0 };
-	viper::vec2 force = viper::vec2{ 1, 0 }.Rotate(math::degtoRad(m_transform.rotation)) * speed;
+	viper::vec2 force = viper::vec2{ 1, 0 }.Rotate(math::degToRad(m_transform.rotation)) * speed;
 	velocity += force * dt;
 
 	Actor::Update(dt);
