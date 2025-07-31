@@ -16,7 +16,17 @@ using namespace viper;
 
 bool SpaceGame::Initialize()
 {
-    m_scene = std::make_unique<Scene>();
+    m_scene = std::make_unique<Scene>(this);
+
+	m_titleFont = std::make_shared<Font>();
+	m_titleFont->Load("CactusSandwich.ttf", 50);
+
+	m_uiFont = std::make_shared<Font>();
+	m_uiFont->Load("CactusSandwich.ttf", 30);
+
+	m_tittleText = std::make_unique<Text>(m_titleFont);
+	m_scoreText = std::make_unique<Text>(m_uiFont);
+	m_Text = std::make_unique<Text>(m_uiFont);
 
     return true;
 }
@@ -26,7 +36,7 @@ void SpaceGame::Update(float dt)
     switch (m_gameState)
     {
     case SpaceGame::GameState::Initialize:
-        m_gameState = GameState::Title;
+        m_gameState = GameState::StartGame;
         break;
 
     case SpaceGame::GameState::Title:
@@ -46,7 +56,7 @@ void SpaceGame::Update(float dt)
         // create player
         std::shared_ptr<viper::Model> model = std::make_shared<viper::Model>(GameData::playerPoints, viper::vec3{ 0.0f, 0.4f, 1.0f });
         viper::Transform transform{ viper::vec2{ viper::getEngine().getRenderer().GetWidth() * 0.5f, viper::getEngine().getRenderer().GetHeight() * 0.5f }, 0, 5 };
-        std::unique_ptr<Player> player = std::make_unique<Player>(transform, model);
+        auto player = std::make_unique<Player>(transform, model);
         player->speed = 1500.0f;
         player->rotationRate = 180.0f;
         player->damping = 1.5f;
@@ -89,9 +99,9 @@ void SpaceGame::Update(float dt)
     m_scene->Update(viper::getEngine().getTime().GetDeltaTime());
 }
 
-void SpaceGame::Draw()
+void SpaceGame::Draw(viper::Renderer& renderer)
 {
-    m_scene->Draw(viper::getEngine().getRenderer());
+    m_scene->Draw(renderer);
 }
 
 void SpaceGame::Shutdown()

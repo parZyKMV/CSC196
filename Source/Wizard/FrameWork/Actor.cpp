@@ -4,12 +4,27 @@
 namespace viper {
 	void viper::Actor::Update(float dt)
 	{
-		m_transform.position += velocity * dt;
+		if (destroyed)return;
+
+		if (lifespan != 0) {
+			lifespan -= dt;
+		
+			destroyed = lifespan <= 0;
+		}
+
+		transform.position += velocity * dt;
 		velocity += (1.0f / (1.0f + damping * dt));
 	}
 
 	void viper::Actor::Draw(Renderer& renderer)
 	{
-		m_model->Draw(renderer, m_transform);
+		if (destroyed)return;
+
+		model->Draw(renderer, transform);
+	}
+
+	float Actor::getRadius()
+	{
+		return model ? model->getRadius() * transform.scale : 0;
 	}
 }

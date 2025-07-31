@@ -10,7 +10,7 @@ public:
 	}
 
 	void Update(float dt) override;
-private:
-
+	// Handle collision with other actors
+	void onCollision(Actor* other) override;
 };
 
