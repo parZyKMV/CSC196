@@ -39,6 +39,9 @@
     <ClCompile Include="Game\Rocket.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\SuperPowerup.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Player.h">
@@ -51,6 +54,9 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Rocket.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\SuperPowerup.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

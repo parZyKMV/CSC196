@@ -56,6 +56,7 @@ void Player::Update(float dt)
 		scene->AddActor(std::move(rocket));
 	}
 
+
 	Actor::Update(dt);
 }
 
