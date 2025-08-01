@@ -3,17 +3,18 @@
 namespace GameData {
     std::vector<viper::vec2> playerPoints = {
         {0, 0},
-        {60, 20},
-        {50, 15},
-        {40, 10},
-        {40, 5},
-        {20, 5},
-        {20, -5},
-        {40, -5},
-        {40, -10},
-        {50, -15},
-        {60, -20},
+        {12, 4},
+        {10, 3},
+        {8, 2},
+        {8, 1},
+        {4, 1},
+        {4, -1},
+        {8, -1},
+        {8, -2},
+        {10, -3},
+        {12, -4},
         {0, 0}
+
     };
 
     std::vector<viper::vec2> enemyPoints = {
@@ -38,7 +39,7 @@ namespace GameData {
           { -3, -8 },
 	};
 
-    std::vector<viper::vec2> rockect = {
+    std::vector<viper::vec2> rocket = {
         { 0, -3 },
         { -1, -2 },
         { -1, 0 },

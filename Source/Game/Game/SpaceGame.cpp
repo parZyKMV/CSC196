@@ -36,7 +36,7 @@ void SpaceGame::Update(float dt)
     switch (m_gameState)
     {
     case SpaceGame::GameState::Initialize:
-        m_gameState = GameState::StartGame;
+        m_gameState = GameState::Title;
         break;
 
     case SpaceGame::GameState::Title:
@@ -58,7 +58,7 @@ void SpaceGame::Update(float dt)
         viper::Transform transform{ viper::vec2{ viper::getEngine().getRenderer().GetWidth() * 0.5f, viper::getEngine().getRenderer().GetHeight() * 0.5f }, 0, 5 };
         auto player = std::make_unique<Player>(transform, model);
         player->speed = 1500.0f;
-        player->rotationRate = 180.0f;
+        player->rotationRate = 30.0f;
         player->damping = 1.5f;
         player->name = "player";
         player->tag = "player";

@@ -187,6 +187,7 @@
     <ClCompile Include="FrameWork\Scene.cpp" />
     <ClCompile Include="input\InputSystem.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Renderer\Font.cpp" />
     <ClCompile Include="Renderer\Model.cpp" />
     <ClCompile Include="Renderer\Text.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Renderer\Engine.h" />
     <ClInclude Include="Renderer\Font.h" />
     <ClInclude Include="Renderer\Model.h" />
+    <ClInclude Include="Renderer\ParticleSystem.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\Text.h" />
   </ItemGroup>

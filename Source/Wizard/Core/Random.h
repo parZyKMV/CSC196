@@ -94,4 +94,13 @@ namespace viper::random {
         static std::bernoulli_distribution dist(0.5);
         return dist(generator());
     }
+
+    inline vec2 onUnitCircle() {
+        float radians = getReal(math::twoPi);
+        vec2 v;
+        v.x = math::cosf(radians);
+        v.y = math::sinf(radians);
+
+        return { math::cosf(radians), math::sinf(radians) };
+    }
 }

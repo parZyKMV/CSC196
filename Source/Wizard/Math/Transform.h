@@ -5,7 +5,7 @@ namespace viper {
 	struct Transform
 	{
 		vec2 position = { 0,0 };
-		float rotation = 0;
+		float rotation = 0; // in degrees
 		float scale = 1;
 
 		Transform() = default;
